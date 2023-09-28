@@ -5,6 +5,21 @@
     <div class="box-element product">
         <h6><strong>{{ p.name }}</strong></h6>
         <h6>{{ p.description }}</h6>
+        {% if p.category.id == 1 %}
+          <p><select  name="color">
+            <option value="Любой">Любой</option>
+            <option value="Венге">Венге</option>
+            <option value="Индийское золото">Индийское золото</option>
+            <option value="Белый">Белый</option>
+            <option value="Бронза">Бронза</option>
+            </select></p>
+        {% else %}
+          <p><select  name="color">
+            <option value="Черный">Черный</option>
+            <option value="Белый">Белый</option>
+            <option value="Коричневый">Коричневый</option>
+            </select></p>
+        {% endif %}
         <hr>
 
         <button class="btn btn-outline-secondary add-btn">Add to Cart</button>
