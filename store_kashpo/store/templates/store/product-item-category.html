@@ -1,7 +1,11 @@
 {% load static %}
 
 <div class="col-lg-4">
+    {% if p.image %}
+    <img class="thumbnail" src="{{ p.image.url}}">
+    {% else %}
     <img class="thumbnail" src="{% static 'img/placeholder.png' %}">
+    {% endif %}
     <div class="box-element product">
         <h6><strong>{{ p.name }}</strong></h6>
         <h6>{{ p.description }}</h6>

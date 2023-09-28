@@ -40,8 +40,7 @@ class Product(models.Model):
     price = models.FloatField()
     description = models.CharField(max_length=200,null=True, blank=True)
     is_active = models.BooleanField(default=False)
-    # image = models.ImageField(null=True, blank=True)
-    # color = models.ForeignKey(Color, on_delete=models.PROTECT)
+    image = models.ImageField(null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
 
     def __str__(self):
