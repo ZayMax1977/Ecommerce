@@ -1,6 +1,6 @@
 from django.contrib import admin
-
 from store.models import *
+
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['id','name']
@@ -10,9 +10,16 @@ class CategoryAdmin(admin.ModelAdmin):
 
 admin.site.register(Category,CategoryAdmin)
 
+class OrderItemAdmin(admin.ModelAdmin):
+    list_display = ['id','product','color','order','quantity']
+
+    class Meta:
+        model = OrderItem
+
+admin.site.register(OrderItem,OrderItemAdmin)
+
+
 admin.site.register(Customer)
 admin.site.register(Product)
 admin.site.register(Order)
-admin.site.register(OrderItem)
 admin.site.register(ShippingAddress)
-# admin.site.register(Category)

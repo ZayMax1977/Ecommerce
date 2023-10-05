@@ -11,23 +11,6 @@ class Customer(models.Model):
         return self.name
 
 
-# class Color(models.Model):
-#     ANY = 1
-#     WHITE = 2
-#     INDIAN_TREE = 3
-#     WENGE = 4
-#
-#     COLOR = (
-#         (WHITE, 'Белый'),
-#         (INDIAN_TREE, 'Индийское дерево'),
-#         (WENGE, 'Венге'),
-#         (ANY, 'Любой')
-#     )
-#
-#     color = models.IntegerField(choices=COLOR, default=ANY)
-#
-#     def __str__(self):
-#         return self.name
 
 class Category(models.Model):
     name = models.CharField(max_length=200, blank=True, null=True, default=None)
@@ -46,6 +29,14 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def imageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url='../../img/placeholder.png'
+        return url
+
 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
@@ -56,6 +47,18 @@ class Order(models.Model):
     def __str__(self):
         return str(self.id)
 
+    @property
+    def get_cart_total(self):
+        orderitems = self.orderitem_set.all()
+        total = sum([item.get_total for item in orderitems])
+        return total
+
+    @property
+    def get_cart_items(self):
+        orderitems = self.orderitem_set.all()
+        total = sum([item.quantity for item in orderitems])
+        return total
+
 
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
@@ -64,6 +67,13 @@ class OrderItem(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     color = models.CharField(max_length=100, null=True,blank=True, default='Любой')
 
+    def __str__(self):
+        return str(self.product.name)
+
+    @property
+    def get_total(self):
+        total = self.product.price * self.quantity
+        return total
 
 class ShippingAddress(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)

@@ -1,11 +1,7 @@
 {% load static %}
 
-<div class="col-lg-4">
-    {% if p.image %}
-    <img class="thumbnail" src="{{ p.image.url}}">
-    {% else %}
-    <img class="thumbnail" src="{% static 'img/placeholder.png' %}">
-    {% endif %}
+<div class="col-lg-4 product-cart">
+    <img class="thumbnail product-image" src="{{ p.imageURL}}">
     <div class="box-element product">
         <h6><strong>{{ p.name }}</strong></h6>
         <h6>{{ p.description }}</h6>
@@ -26,9 +22,9 @@
         {% endif %}
         <hr>
 
-        <button class="btn btn-outline-secondary add-btn">Add to Cart</button>
+        <button data-product="{{ p.id }}"  data-action='add' class="btn btn-outline-secondary add-btn update-cart">В Корзину</button>
         <a class="btn btn-outline-success" href="#">View</a>
-        <h4 style="display: inline-block; float: right"><strong>{{ p.price|floatformat:2 }} </strong>РУБ.</h4>
+        <h4 style="display: inline-block; float: right"><strong>{{ p.price|floatformat:2 }} </strong><span class="carrency">РУБ.</span></h4>
 
     </div>
     <br>
