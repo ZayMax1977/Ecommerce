@@ -36,13 +36,16 @@
 					</div>
 
 					<hr>
-					<input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
+					<div class="d-grid gap-2">
+						<input id="form-button" class="btn btn-success btn-block" type="submit" value="Продолжить">
+					</div>
 				</form>
 			</div>
 
 			<br>
 			<div class="box-element hidden" id="payment-info">
-				<small>Paypal Options</small>
+				<small>Параметры оплаты: </small>
+				<button id="make-payment" class="btn btn-success btn-block">Оплатить</button>
 			</div>
 
 		</div>
@@ -66,4 +69,18 @@
 			</div>
 		</div>
 	</div>
+<script type="text/javascript">
+		var shipping = '{{order.shipping}}'
+		if (shipping == 'False'){
+		 	document.getElementById('shipping-info').innerHTML = ''
+		}
+
+		var form = document.getElementById('form')
+		form.addEventListener('submit', function(e){
+	    	e.preventDefault()
+	    	console.log('Form Submitted...')
+	    	document.getElementById('form-button').classList.add("hidden");
+	    	document.getElementById('payment-info').classList.remove("hidden");
+	    })
+</script>
 {% endblock content %}
