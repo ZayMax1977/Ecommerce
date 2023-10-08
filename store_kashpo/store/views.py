@@ -1,15 +1,16 @@
+import datetime
 import json
+
 
 from django.http import JsonResponse
 from django.shortcuts import render
 
-from store.models import Product, Order, OrderItem
+from store.models import Product, Order, OrderItem, ShippingAddress
 
 
 def store(request):
     if request.user.is_authenticated:
         customer = request.user.customer
-        print(customer)
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
@@ -28,6 +29,7 @@ def cart(request):
         print(customer)
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
+
         cartItems = order.get_cart_items
     else:
         items = []
@@ -57,16 +59,13 @@ def updateItem(request):
     data = json.loads(request.body)
     productId = data['productId']
     action = data['action']
-    print('Action:', action)
-    print('Product:', productId)
+    color = data['color']
 
     customer = request.user.customer
     product = Product.objects.get(id=productId)
     order, created = Order.objects.get_or_create(customer=customer, complete=False)
-    print(order)
 
-    orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
-    print(orderItem)
+    orderItem, created = OrderItem.objects.get_or_create(order=order, product=product, color=color)
 
     if action == 'add':
         orderItem.quantity = (orderItem.quantity + 1)
@@ -79,3 +78,35 @@ def updateItem(request):
         orderItem.delete()
 
     return JsonResponse('Item was added', safe=False)
+
+def processOrder(request):
+    transaction_id = datetime.datetime.now().timestamp()
+    data = json.loads(request.body)
+    print('Transaction_id: ',transaction_id)
+    print('Data:', data)
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        transaction_id = datetime.datetime.now().timestamp()
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        total = float(data['form']['total'])
+        order.transaction_id = transaction_id
+
+        if total == order.get_cart_total:
+            order.complete = True
+        order.save()
+
+        if order.shipping == True:
+            ShippingAddress.objects.create(
+                customer=customer,
+                order=order,
+                address=data['shipping']['address'],
+                city=data['shipping']['city'],
+                state=data['shipping']['state'],
+                country=data['shipping']['country'],
+                zipcode=data['shipping']['zipcode'],
+            )
+    else:
+        print('User is not logged in...')
+
+    return JsonResponse('Payment submitted..', safe=False)

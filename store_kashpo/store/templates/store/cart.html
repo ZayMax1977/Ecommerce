@@ -27,6 +27,7 @@
 				<div class="cart-row">
 					<div style="flex:2"></div>
 					<div style="flex:2"><strong>Item</strong></div>
+					<div style="flex:2"><strong>Color</strong></div>
 					<div style="flex:1"><strong>Price</strong></div>
 					<div style="flex:1"><strong>Quantity</strong></div>
 					<div style="flex:1"><strong>Total</strong></div>
@@ -35,16 +36,17 @@
 				<div class="cart-row">
 					<div style="flex:2"><img class="row-image" src="{{ i.product.imageURL }}"></div>
 					<div style="flex:2"><p>{{ i.product.name }}</p></div>
+					<div style="flex:2"><p>{{ i.color }}</p></div>
 					<div style="flex:1"><p>{{ i.product.price|floatformat:2 }}</p></div>
 					<div style="flex:1" class="block-quantity">
 
 						<span class="quantity item-quantity">{{ i.quantity }}</span>
 
 						<div class="quantity img-quantity" >
-							<img class="chg-quantity update-cart" data-product ='{{ i.product.id }}' data-action="add"
+							<img class="chg-quantity update-cart" data-product ='{{ i.product.id }}' data-action="add" data-color="{{ i.color }}"
 								 src="{% static  'img/arrow-up.png' %}">
 
-							<img class="chg-quantity update-cart" data-product ='{{ i.product.id }}' data-action="remove"
+							<img class="chg-quantity update-cart" data-product ='{{ i.product.id }}' data-action="remove" data-color="{{ i.color }}"
 								 src="{% static  'img/arrow-down.png' %}">
 						</div>
 					</div>

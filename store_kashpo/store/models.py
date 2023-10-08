@@ -75,7 +75,7 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
-    color = models.CharField(max_length=100, null=True,blank=True, default='Любой')
+    color = models.CharField(max_length=100, null=True,blank=True)
 
     def __str__(self):
         return str(self.product.name)
@@ -91,9 +91,9 @@ class ShippingAddress(models.Model):
     address = models.CharField(max_length=200, null=False)
     city = models.CharField(max_length=200, null=False)
     state = models.CharField(max_length=200, null=False)
+    country = models.CharField(max_length=200, null=False)
     zipcode = models.CharField(max_length=200, null=False)
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.address
-
+        return '{} {}'.format(self.city, self.address)

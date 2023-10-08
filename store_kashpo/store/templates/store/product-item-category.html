@@ -6,7 +6,7 @@
         <h6><strong>{{ p.name }}</strong></h6>
         <h6>{{ p.description }}</h6>
         {% if p.category.id == 1 %}
-          <p><select  name="color">
+          <p><select id="color_{{ p.id }}" name="color">
             <option value="Любой">Любой</option>
             <option value="Венге">Венге</option>
             <option value="Индийское золото">Индийское золото</option>
@@ -22,7 +22,8 @@
         {% endif %}
         <hr>
 
-        <button data-product="{{ p.id }}"  data-action='add' class="btn btn-outline-secondary add-btn update-cart">В Корзину</button>
+        <button data-product="{{ p.id }}"  data-action='add'  class="btn btn-outline-secondary add-btn update-cart">В
+            Корзину</button>
         <a class="btn btn-outline-success" href="#">View</a>
         <h4 style="display: inline-block; float: right"><strong>{{ p.price|floatformat:2 }} </strong><span class="carrency">РУБ.</span></h4>
 
