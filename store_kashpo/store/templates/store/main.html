@@ -29,6 +29,11 @@
 		}
 		var csrftoken = getToken('csrftoken')
 
+		if (csrftoken == null){
+		    csrftoken = '{{ csrf_token }}'
+		    console.log('django: ', csrftoken)
+		}
+
     </script>
 </head>
 <body>

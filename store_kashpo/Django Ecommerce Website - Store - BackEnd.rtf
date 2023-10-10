@@ -1,7 +1,7 @@
 {\rtf1\ansi\ansicpg1251\deff0\nouicompat\deflang1049{\fonttbl{\f0\fnil\fcharset0 Calibri;}{\f1\fnil\fcharset204 Calibri;}{\f2\fmodern JetBrains Mono;}{\f3\fmodern\fcharset0 JetBrains Mono;}{\f4\fmodern\fcharset204 JetBrains Mono;}}
 {\colortbl ;\red0\green0\blue255;\red165\green165\blue165;\red255\green0\blue0;\red102\green102\blue102;\red0\green176\blue80;\red0\green77\blue187;\red235\green235\blue235;\red155\green0\blue211;\red51\green51\blue51;\red237\green134\blue74;}
 {\*\generator Riched20 10.0.18362}\viewkind4\uc1 
-\pard\sa200\sl276\slmult1 {\f0\fs22\lang9{\field{\*\fldinst{HYPERLINK https://www.youtube.com/watch?v=pbTkIOChIu0&list=PL-51WBLyFTg0omnamUjL1TCVov7yDTRng&index=4 }}{\fldrslt{https://www.youtube.com/watch?v=pbTkIOChIu0&list=PL-51WBLyFTg0omnamUjL1TCVov7yDTRng&index=4\ul0\cf0}}}}\f0\fs22\lang1033\par
+\pard\sa200\sl276\slmult1 {\f0\fs22\lang9{\field{\*\fldinst{HYPERLINK https://www.youtube.com/watch?v=kH2FOWuA4uI&list=PL-51WBLyFTg0omnamUjL1TCVov7yDTRng&index=6 }}{\fldrslt{https://www.youtube.com/watch?v=kH2FOWuA4uI&list=PL-51WBLyFTg0omnamUjL1TCVov7yDTRng&index=6\ul0\cf0}}}}\f0\fs22\par
 \par
 \f1\lang1049 1. \'d1\'ee\'e7\'e4\'e0\'e4\'e8\'ec \'ec\'ee\'e4\'e5\'eb\'e8\f0\lang1033 :\f1\lang1049\par
 \cf2\ul\i store_kashpo/store/models.py\par
@@ -12,8 +12,7 @@
 \par
 class OrderItem(models.Model):\line     product = models.ForeignKey(Product\b , \b0 on_delete=models.SET_NULL\b , \b0 null=True)\line     order = models.ForeignKey(Order\b , \b0 on_delete=models.SET_NULL\b , \b0 null=True)\line     quantity = models.IntegerField(default=\b 0, \b0 null=True\b , \b0 blank=True)\line     date_added = models.DateTimeField(auto_now_add=True)\par
 \f0\lang1033           \f2 color = models.CharField(max_length=\b 100, \b0 null=True\b ,\b0 blank=True\b , \b0 default='\f1\lang1049\'cb\'fe\'e1\'ee\'e9\f2\lang1033 ')\line\f3\lang9\line\line class ShippingAddress(models.Model):\line     customer = models.ForeignKey(Customer\b , \b0 on_delete=models.SET_NULL\b , \b0 null=True)\line     order = models.ForeignKey(Order\b , \b0 on_delete=models.SET_NULL\b , \b0 null=True)\line     address = models.CharField(max_length=\b 200, \b0 null=False)\line     city = models.CharField(max_length=\b 200, \b0 null=False)\line     state = models.CharField(max_length=\b 200, \b0 null=False)\par
-
-\pard\box\brdrdash\brdrw0 \sa200\sl276\slmult1\f0\lang1033\tab\f2\lang9 country = models.CharField(max_length=\b 200, \b0 null=False)\f3\line     zipcode = models.CharField(max_length=\b 200, \b0 null=False)\line     date_added = models.DateTimeField(auto_now_add=True)\line\line\f2 def __str__(self):\line     return '\{\} \{\}'.format(self.city\b , \b0 self.address)\par
+\f0\lang1033\tab\f2\lang9 country = models.CharField(max_length=\b 200, \b0 null=False)\f3\line     zipcode = models.CharField(max_length=\b 200, \b0 null=False)\line     date_added = models.DateTimeField(auto_now_add=True)\line\line\f2 def __str__(self):\line     return '\{\} \{\}'.format(self.city\b , \b0 self.address)\par
 \f3\par
 
 \pard\sa200\sl276\slmult1\cf0\f0\fs22 2. \f1\lang1049\'c4\'e5\'eb\'e0\'e5\'ec \'ec\'e8\'e3\'f0\'e0\'f6\'e8\'e8\par
@@ -226,8 +225,7 @@ def cart(request):\line     if request.user.is_authenticated:\line         custo
 \cf6\f2\lang1033 <script type="text/javascript">\line\tab\tab var shipping = '\{\{order.shipping\}\}'\line\tab\tab if (shipping == 'False')\{\line\tab\tab  \tab document.getElementById('shipping-info').innerHTML = ''\line\tab\tab\}\line\line\cf3\b\tab\tab if (user != 'AnonymousUser')\{\line\tab\tab  \tab document.getElementById('user-info').innerHTML = ''\line\tab\tab  \}\line\line\tab\tab if (shipping == 'False' && user != 'AnonymousUser')\{\line\tab\tab\tab\tab document.getElementById('form-wrapper').classList.add("hidden");\line\tab\tab\tab     document.getElementById('payment-info').classList.remove("hidden");\line\tab\tab\}\line\cf6\b0\line\tab\tab var form = document.getElementById('form')\line\tab\tab form.addEventListener('submit', function(e)\{\line\tab     \tab e.preventDefault()\line\tab     \tab console.log('Form Submitted...')\line\tab     \tab document.getElementById('form-button').classList.add("hidden");\line\tab     \tab document.getElementById('payment-info').classList.remove("hidden");\line\tab     \})\line\line\tab     document.getElementById('make-payment').addEventListener('click', function(e)\{\line\tab     \tab submitFormData()\line\tab     \})\line\line\tab     function submitFormData()\{\line\tab     \tab console.log('Payment button clicked')\line\tab\tab\}\line </script>\par
 \cf0\f0 34. \f1\lang1049\'ce\'f2\'ef\'f0\'e0\'e2\'e8\'ec \'ef\'ee\'eb\'ed\'f3\'fe \'f1\'f3\'ec\'ec\'f3 \'ee\'f0\'e4\'e5\'f0\'e0 \'e8 \'ee\'f2\'ef\'f0\'e0\'e2\'e8\'ec \'e5\'e3\'ee \'e0 \'f1\'e5\'f0\'e2\'e5\'f0\f0\lang1033  \f1\lang1049\'f1 \'ed\'e5\'ea\'ee\'f2\'ee\'f0\'ee\'e9 \'e8\'ed\'f4\'ee\'f0\'ec\'e0\'f6\'e8\'e5\'e9 \'ee \'ef\'ee\'eb\'fc\'e7\'ee\'e2\'e0\'f2\'e5\'eb\'e5\par
 \cf4\ul\i store_kashpo/store/templates/store/checkout.html\par
-
-\pard\box\brdrdash\brdrw0 \sa200\sl276\slmult1\cf6\ulnone\i0\f2 <script type="text/javascript">\line\tab\tab var shipping = '\{\{order.shipping\}\}'\line\cf3\b\tab\tab var total = '\{\{ order.get_cart_total\}\}'\par
+\cf6\ulnone\i0\f2 <script type="text/javascript">\line\tab\tab var shipping = '\{\{order.shipping\}\}'\line\cf3\b\tab\tab var total = '\{\{ order.get_cart_total\}\}'\par
 \cf6\b0\f0\lang1033 ...\par
 \cf4\ul\i store_kashpo/store/templates/store/checkout.html\par
 \cf6\ulnone\i0 ...\par
@@ -247,7 +245,7 @@ def cart(request):\line     if request.user.is_authenticated:\line         custo
 \cf2\ul\b0\i store_kashpo/store/templates/store/checkout.html\par
 \cf6\ulnone\i0\f2 function submitFormData()\{\par
 \cf8\f0\lang1033 ...\par
-\cf6\tab\f2 console.log('Shipping Info:', shippingInfo)\line  \tab console.log('User Info:', userFormData)\line\cf3\line  \tab var url = "/process_order/"\line  \tab fetch(url, \{\line  \tab\tab method:'POST',\line  \tab\tab headers:\{\line  \tab\tab\tab 'Content-Type':'applicaiton/json',\line  \tab\tab\tab 'X-CSRFToken':csrftoken,\line  \tab\tab\},\line  \tab\tab body:JSON.stringify(\{'form':userFormData, 'shipping':shippingInfo\}),\line\line  \tab\})\line  \tab .then((response) => response.json())\line  \tab .then((data) => \{\line   console.log('Success:', data);\line   alert('Transaction completed');\line   window.location.href = "\{% url 'store' %\}"\line\line\})\cf8\lang1049\par
+\cf6\tab\f2 console.log('Shipping Info:', shippingInfo)\line  \tab console.log('User Info:', userFormData)\line\cf3\line  \tab var url = "/process_order/"\line  \tab fetch(url, \{\line  \tab\tab method:'POST',\line  \tab\tab headers:\{\line  \tab\tab\tab 'Content-Type':'applicaiton/json',\line  \tab\tab\tab 'X-CSRFToken':csrftoken,\line  \tab\tab\},\line  \tab\tab body:JSON.stringify(\{'form':userFormData, 'shipping':shippingInfo\}),\line\line  \tab\})\line  \tab .then((response) => response.json())\line  \tab .then((data) => \{\line   console.log('Success:', data);\line   alert('Transaction completed');\line   window.location.href = "\{% url 'store' %\}"\line\line\})\cf8\f4\lang1049\par
 \cf6\f0\lang1033\}\f2\lang1049\par
 \cf0\b\f0\lang1033 37. \f1\lang1049\'c4\'ee\'e1\'e0\'e2\'eb\'ff\'e5\'ec\f0\lang1033  \f1\lang1049\'ed\'e5\'ea\'ee\'f2\'ee\'f0\'fb\'e5   \'e4\'e0\'ed\'ed\'fb\'e5\par
 \cf4\ul\b0\i\f0\lang1033 store_kashpo/store/views.py\par
@@ -269,8 +267,8 @@ def cart(request):\line     if request.user.is_authenticated:\line         custo
 \cf0\f1\'d2\'e5\'ef\'e5\'f0\'fc \'e2 \'e0\'e4\'ec\'e8\'ed \'ef\'e0\'ed\'e5\'eb\'e8 \'ef\'ee\'ff\'e2\'e8\'f2\'f1\'ff \'e8\'ed\'f4\'ee\'f0\'ec\'e0\'f6\'e8\'ff \'ee \'e4\'ee\'f1\'f2\'e0\'e2\'ea\'e5\par
 \b 41.1 \'cf\'ce\'f7\'e5\'ec\'f3 \'f2\'ee \'ef\'f0\'e8 \'f1\'ee\'e7\'e4\'e0\'ed\'e8\'e8 \'e7\'e0\'ea\'e0\'e7\'e0 \'e2 \'e0\'e4\'ec\'e8\'ed\'ea\'e5 \'ef\'ee\'ff\'e2\'eb\'ff\'e5\'f2\'f1\'ff \'e4\'e2\'e0 \'e7\'e0\'ea\'e0\'e7, \'ee\'e4\'e8\'ed \'e8\'f1\'ef\'ee\'eb\'ed\'e5\'ed \'e4\'f0\'f3\'e3\'ee\'e9  \'ed\'e5\'f2, \'ef\'f0\'e8 \'f1\'eb\'e5\'e4\'f3\'fe\'f9\'e5\'ec \'e7\'e0\'ea\'e0\'e7\'e5\'e7\'e0\'ef\'ee\'eb\'ed\'ff\'e5\'f2\'f1\'ff \'ef\'f0\'e5\'e4\'fb\'e4\'f3\'f9\'e8\'e9 \'ef\'f3\'f1\'f2\'ee\'e9. \'df \'ed\'e5 \'ee\'f7\'e5\'ed\'fc \'ef\'ee\'ed\'ff\'eb \'fd\'f2\'f3 \'fd\'f2\'f3 \'eb\'ee\'e3\'e8\'ea\'f3 \'e2 \'ea\'ee\'e4\'e5, \'ed\'ee \'f2\'e0\'ea \'ee\'ed \'e8\'e4\'ee\'eb\'e6\'e5\'ed \'f0\'e0\'e1\'ee\'f2\'e0\'f2\'fc\par
 \'d5\'ee\'f2\'ff \'ed\'e5\'f2, \'ef\'ee\'eb\'f3\'f7\'e0\'e5\'f2\'f1\'ff \'f7\'f2\'ee \'ef\'f0\'e8 \'ee\'f2\'ea\'f0\'fb\'f2\'e8\'e8 \'f1\'f2\'f0\'e0\'ed\'e8\'f6\'fb \f0\lang1033 store\f1\lang1049 , \'f1\'f0\'e0\'e7\'f3 \'f1\'ee\'e7\'e4\'e0\'e5\'f2\'f1\'ff \'ef\'f3\'f1\'f2\'ee\'e9 \'ee\'f0\'e4\'e5\'f0 \'f1 \'ef\'f3\'f1\'f2\'fb\'ec\'e8 \'ef\'ee\'eb\'ff\'ec\'e8 \'ea\'f0\'ee\'ec\'e5 \'ef\'ee\'eb\'ff \f0\lang1033 name. \f1\lang1049\'cf\'f0\'e8 \'ed\'e0\'e6\'e0\'f2\'e8\'e8 \'ed\'e0 \'ea\'ed\'ee\'ef\'ea\'f3 \'ee\'ef\'eb\'e0\'f2\'e8\'f2\'fc\f0\lang1033 ,\f1\lang1049  \'fd\'f2\'ee\'f2 \'ef\'f3\'f1\'f2\'ee\'e9 \'ee\'f0\'e4\'e5\'f0  \'e7\'e0\'ef\'ee\'eb\'ed\'ff\'e5\'f2\'f1\'ff ,  \'e8 \'ee\'e4\'ed\'ee\'e2\'f0\'e5\'ec\'e5\'ed\'ed\'ee \'f1\'ee\'e7\'e4\'e0\'e5\'f2\'f1\'ff \'ed\'ee\'e2\'fb\'e9 \'ef\'f3\'f1\'f2\'ee\'e9 \'ee\'f0\'e4\'e5\'f0 \'ea\'ee\'f2\'ee\'f0\'fb\'e9 \'e1\'f3\'e4\'e5\'f2 \'e7\'e0\'ef\'ee\'eb\'ed\'e5\'ed \'e2 \'f1\'eb\'e5\'e4\'f3\'fe\'f9\'e5\'e5 \'ed\'e0\'e6\'e0\'f2\'e8\'e5 \'ea\'ed\'ee\'ef\'ea\'e8 \'ee\'ef\'eb\'e0\'f2\'e8\'f2\'fc.\f0\lang1033\par
-\b0\f1\lang1049 42. \'cd\'e0\'e4\'ee \'ef\'ee\'f0\'e0\'e1\'ee\'f2\'e0\'f2\'fc \'f1 \'ef\'e5\'f0\'e5\'e4\'e0\'f7\'e5\'e9 \'f6\'e2\'e5\'f2\'e0 \'e2 \'e7\'e0\'ea\'e0\'e7\par
-\cf2\ul\i store_kashpo/store/templates/store/product-item-category.html\par
+\f1\lang1049 42. \'cd\'e0\'e4\'ee \'ef\'ee\'f0\'e0\'e1\'ee\'f2\'e0\'f2\'fc \'f1 \'ef\'e5\'f0\'e5\'e4\'e0\'f7\'e5\'e9 \'f6\'e2\'e5\'f2\'e0 \'e2 \'e7\'e0\'ea\'e0\'e7\par
+\cf2\ul\b0\i store_kashpo/store/templates/store/product-item-category.html\par
 \cf6\ulnone\i0\f0\lang1033 ...\f1\lang1049\par
 \f2 <p><select \cf3\b id="color_\{\{ p.id \}\}"\cf6\b0  name="color">\line   <option value="\f1\'cb\'fe\'e1\'ee\'e9\f2 ">\f1\'cb\'fe\'e1\'ee\'e9\f2 </option>\line   <option value="\f1\'c2\'e5\'ed\'e3\'e5\f2 ">\f1\'c2\'e5\'ed\'e3\'e5\f2 </option>\line   <option value="\f1\'c8\'ed\'e4\'e8\'e9\'f1\'ea\'ee\'e5\f2  \f1\'e7\'ee\'eb\'ee\'f2\'ee\f2 ">\f1\'c8\'ed\'e4\'e8\'e9\'f1\'ea\'ee\'e5\f2  \f1\'e7\'ee\'eb\'ee\'f2\'ee\f2 </option>\line   <option value="\f1\'c1\'e5\'eb\'fb\'e9\f2 ">\f1\'c1\'e5\'eb\'fb\'e9\f2 </option>\line   <option value="\f1\'c1\'f0\'ee\'ed\'e7\'e0\f2 ">\f1\'c1\'f0\'ee\'ed\'e7\'e0\f2 </option>\line   </select></p>\par
 \f0\lang1033 ...\par
@@ -280,12 +278,23 @@ def cart(request):\line     if request.user.is_authenticated:\line         custo
 \cf6\ulnone\i0 def updateItem(request):\line     data = json.loads(request.body)\line     productId = data['productId']\line     action = data['action']\line     color = data['color']\line\line     customer = request.user.customer\line     product = Product.objects.get(id=productId)\line     order\b , \b0 created = Order.objects.get_or_create(customer=customer\b , \b0 complete=False)\line\line     orderItem\b , \b0 created = OrderItem.objects.get_or_create(order=order\b , \b0 product=product\b , \cf3 color=color\cf6\b0 )\line\cf7\par
 \cf6\f0 ....\par
 \cf4\ul\i store_kashpo/store/templates/store/cart.html\f2\par
-\cf6\ulnone\i0\lang1049\{% for i in items %\}\line <div class="cart-row">\line\tab <div style="flex:2"><img class="row-image" src="\{\{ i.product.imageURL \}\}"></div>\line\tab <div style="flex:2"><p>\{\{ i.product.name \}\}</p></div>\line\cf3\b\tab <div style="flex:2"><p>\{\{ i.color \}\}</p></div>\line\cf6\b0\tab <div style="flex:1"><p>\{\{ i.product.price|floatformat:2 \}\}</p></div>\line\tab <div style="flex:1" class="block-quantity">\par
-\lang1033 <span class="quantity item-quantity">\{\{ i.quantity \}\}</span>\line\line <div class="quantity img-quantity" >\line\tab <img class="chg-quantity update-cart" data-product ='\{\{ i.product.id \}\}' data-action="add" \cf3\b data-color="\{\{ i.color \}\}\cf6\b0 "\line\tab\tab  src="\{% static  'img/arrow-up.png' %\}">\line\line\tab <img class="chg-quantity update-cart" data-product ='\{\{ i.product.id \}\}' data-action="remove" \cf3\b data-color="\{\{ i.color \}\}\cf6\b0 "\line\tab\tab  src="\{% static  'img/arrow-down.png' %\}">\line </div>\par
+\cf6\ulnone\i0\f4\lang1049\{% for i in items %\}\line <div class="cart-row">\line\tab <div style="flex:2"><img class="row-image" src="\{\{ i.product.imageURL \}\}"></div>\line\tab <div style="flex:2"><p>\{\{ i.product.name \}\}</p></div>\line\cf3\b\tab <div style="flex:2"><p>\{\{ i.color \}\}</p></div>\line\cf6\b0\tab <div style="flex:1"><p>\{\{ i.product.price|floatformat:2 \}\}</p></div>\line\tab <div style="flex:1" class="block-quantity">\par
+\f3\lang1033 <span class="quantity item-quantity">\{\{ i.quantity \}\}</span>\line\line <div class="quantity img-quantity" >\line\tab <img class="chg-quantity update-cart" data-product ='\{\{ i.product.id \}\}' data-action="add" \cf3\b data-color="\{\{ i.color \}\}\cf6\b0 "\line\tab\tab  src="\{% static  'img/arrow-up.png' %\}">\line\line\tab <img class="chg-quantity update-cart" data-product ='\{\{ i.product.id \}\}' data-action="remove" \cf3\b data-color="\{\{ i.color \}\}\cf6\b0 "\line\tab\tab  src="\{% static  'img/arrow-down.png' %\}">\line </div>\par
 \cf0\f1\lang1049\'cf\'ee\'e4\'f0\'e5\'e4\'e0\'ea\'f2\'e8\'f0\'f3\'e5\'ec \'ea\'ee\'e4 \'f7\'f2\'ee \'e1\'fb \'ef\'e5\'f0\'e5\'e4\'e0\'e2\'eb\'f1\'ff \'f2\'e0\'ea \'e6\'e5 \'f6\'e2\'e5\'f2 \'ef\'f0\'e8 \'f3\'ec\'e5\'ed\'fc\'f8\'e5\'ed\'e8\'e8 \'e8 \'f3\'e2\'e5\'eb\'e8\'f7\'e5\'ed\'e8\'e8 \'f2\'ee\'e2\'e0\'f0\'e0 \'e2 \'ea\'ee\'f0\'e7\'e8\'ed\'e5\par
 \cf2\ul\i store_kashpo/static/js/cart.js\par
 \cf6\ulnone\i0\f2 for (i = \b 0\b0 ; i < updateBtns.length; i++) \{\line\tab updateBtns[i].addEventListener('click', function()\{\line\tab\tab var productId = this.dataset.product\line\tab\tab var action = this.dataset.action\line\cf3\tab\tab if (this.dataset.color)\{\line\tab\tab     var color = this.dataset.color\line\tab\tab\}else\{\line\tab\tab     color  = document.getElementById('color_' + String(productId)).value\line\cf7\tab\cf3\tab\}\par
-\cf6\strike\f1\tab\tab\f2 color  = document.getElementById('color_' + String(productId)).value\line\cf7\strike0\line\line\par
+\cf6\strike\f1\tab\tab\f2 color  = document.getElementById('color_' + String(productId)).value\line\par
+\cf0\b\strike0\f0\lang1033 43. \f1\lang1049\'c8\'f1\'ef\'f0\'e0\'e2\'eb\'ff\'e5\'ec \'ee\'f8\'e8\'e1\'ea\'f3, \'f2\'e0\'ea \'ea\'e0\'ea \f0\lang1033 csrftoken \f1\lang1049\'ed\'e5 \'e3\'e5\'ed\'e5\'f0\'e8\'f0\'f3\'e5\'f2\'f1\'ff \'ef\'f0\'e8 \'ee\'f2\'ea\'f0\'fb\'f2\'e8\'e8 \'e2\'ea\'eb\'e0\'e4\'ea\'e8 \'e2 \'f0\'e5\'e6\'e8\'ec\'e5 \'e8\'ed\'ea\'ee\'e3\'ed\'e8\'f2\'ee, \'ed\'ee \'ef\'ee\'f7\'e5\'ec\'f3 \'f2\'ee \'ed\'e5 \'e2\'f1\'e5\'e3\'e4\'e0. \par
+\'dd\'f2\'ee \'ec\'ee\'e9 \'e2\'e0\'f0\'e8\'e0\'ed\'f2 \'ea\'ee\'e4\'e0 , \'ed\'e5 \'ea\'e0\'ea \'ed\'e0 \'e2\'e8\'e4\'e5\'ee\f0\lang1033 :\par
+\cf4\ul\b0\i store_kashpo/store/templates/store/main.html\par
+\cf6\ulnone\i0\f2 <script type="text/javascript">\line\f0 ...\cf4\ul\i\par
+\cf6\ulnone\i0\f2 var csrftoken = getToken('csrftoken')\line\cf3\line if (csrftoken == null)\{\line     csrftoken = '\{\{ csrf_token \}\}'\line\}\line\cf7\line\cf6   </script>\par
+\f0 ...\f2\lang1049\line\cf2\ul\i store_kashpo/store/views.py\par
+\cf6\ulnone\i0\f1 ...\par
+
+\pard\box\brdrdash\brdrw0 \sa200\sl276\slmult1\f2 def store(request):\line     if request.user.is_authenticated:\line         customer = request.user.customer\line         order\b , \b0 created = Order.objects.get_or_create(customer=customer\b , \b0 complete=False)\line         items = order.orderitem_set.all()\line         cartItems = order.get_cart_items\line     else:\line         items = []\line         order = \{'get_cart_total': \b 0, \b0 'get_cart_items': \b 0, \b0 'shipping': False\}\line         cartItems = order['get_cart_items']\line\line\cf3     csrf_token = get_token(request)\line\cf6\line     products = Product.objects.all().filter(is_active=True)\line     context = \{'products': products\b , \b0 'cartItems': cartItems\b , \cf3\b0 'csrf_token': csrf_token\cf6\}\line     return render(request\b , \b0 'store/store.html'\b , \b0 context)\par
+
+\pard\box\brdrdash\brdrw0 \sa200\sl276\slmult1\f1 ...\f2\line\cf7\par
 \cf0\par
 \cf2\ul\i\f1\par
 \cf0\ulnone\i0\f2\lang1033\par
@@ -294,8 +303,7 @@ def cart(request):\line     if request.user.is_authenticated:\line         custo
 \par
 \cf4\ul\i\f0\par
 \cf6\ulnone\i0\f2\lang1049\par
-
-\pard\box\brdrdash\brdrw0 \sa200\sl276\slmult1\cf4\ul\i\lang1033\par
+\cf4\ul\i\f3\lang1033\par
 \cf2\f0\par
 \cf0\ulnone\i0\f1\lang1049\par
 \f0\lang1033\par

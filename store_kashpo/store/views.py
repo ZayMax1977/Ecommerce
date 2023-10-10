@@ -4,7 +4,8 @@ import json
 
 from django.http import JsonResponse
 from django.shortcuts import render
-
+from django.views.decorators.csrf import csrf_exempt
+from django.middleware.csrf import get_token
 from store.models import Product, Order, OrderItem, ShippingAddress
 
 
@@ -19,8 +20,10 @@ def store(request):
         order = {'get_cart_total': 0, 'get_cart_items': 0, 'shipping': False}
         cartItems = order['get_cart_items']
 
+    csrf_token = get_token(request)
+
     products = Product.objects.all().filter(is_active=True)
-    context = {'products': products, 'cartItems': cartItems}
+    context = {'products': products, 'cartItems': cartItems, 'csrf_token': csrf_token}
     return render(request, 'store/store.html', context)
 
 def cart(request):
@@ -78,6 +81,7 @@ def updateItem(request):
         orderItem.delete()
 
     return JsonResponse('Item was added', safe=False)
+
 
 def processOrder(request):
     transaction_id = datetime.datetime.now().timestamp()
