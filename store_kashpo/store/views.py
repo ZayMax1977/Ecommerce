@@ -16,9 +16,30 @@ def store(request):
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
     else:
+        try:
+            cart = json.loads(request.COOKIES['cart'])
+        except:
+            cart = {}
         items = []
-        order = {'get_cart_total': 0, 'get_cart_items': 0, 'shipping': False}
+
+        # get_cart_items - общее кол.единиц товара
+        order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = order['get_cart_items']
+
+        for i in cart:
+            try:
+                cartItems += cart[i]['quantity']
+                # получаем id товара из ключа откидывая все кроме числа
+                id = int(i.replace(i[i.find("_"):], ''))
+                product = Product.objects.get(id=id)
+                total = (product.price * cart[i]['quantity'])
+                order['get_cart_total'] += total
+                order['get_cart_items'] += cart[i]['quantity']
+        # items = []
+        # order = {'get_cart_total': 0, 'get_cart_items': 0, 'shipping': False}
+        # cartItems = order['get_cart_items']
+            except:
+                pass
 
     csrf_token = get_token(request)
 
@@ -27,20 +48,51 @@ def store(request):
     return render(request, 'store/store.html', context)
 
 def cart(request):
+    shipping = False
     if request.user.is_authenticated:
         customer = request.user.customer
-        print(customer)
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
-
         cartItems = order.get_cart_items
     else:
+        try:
+            cart = json.loads(request.COOKIES['cart'])
+        except:
+            cart = {}
         items = []
-        order = {'get_cart_total':0, 'get_cart_items':0} # Это для вывода в шаблон для
-        # неавторизованного пользователя, иначе выйдет ошибка. Пока так
+        # get_cart_items - общее кол.единиц товара
+        order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartItems = order['get_cart_items']
 
-    context = {'items': items, 'order': order, 'cartItems': cartItems, 'shipping': False}
+        for i in cart:
+            try:
+                cartItems += cart[i]['quantity']
+                # получаем id товара из ключа откидывая все кроме числа
+                id = int(i.replace(i[i.find("_"):], ''))
+                product = Product.objects.get(id=id)
+                total = (product.price * cart[i]['quantity'])
+                order['get_cart_total'] += total
+                order['get_cart_items'] += cart[i]['quantity']
+
+                item = {
+                    'product': {
+                        'id': product.id,
+                        'name': product.name,
+                        'price': product.price,
+                        'imageURL': product.imageURL,
+
+                    },
+                    'quantity': cart[i]['quantity'],
+                    'get_total': total,
+                    'color': cart[i]['color'],
+                }
+                items.append(item)
+                if product.digital == False:
+                    shipping = True
+            except:
+                pass
+
+    context = {'items': items, 'order': order, 'cartItems': cartItems, 'shipping': shipping}
     return render(request,'store/cart.html',context)
 
 def checkout(request):
