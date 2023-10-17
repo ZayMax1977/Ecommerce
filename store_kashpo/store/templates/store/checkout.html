@@ -61,6 +61,7 @@
 				<div class="cart-row">
 					<div style="flex:2"><img class="row-image" src="{{ i.product.imageURL }}"></div>
 					<div style="flex:2"><p>{{ i.product.name }}</p></div>
+					<div style="flex:1"><p>{{ i.color }}</p></div>
 					<div style="flex:1"><p>{{ i.product.price|floatformat:2 }}</p></div>
 					<div style="flex:1"><p>x{{ i.quantity }}</p></div>
 				</div>
@@ -140,8 +141,11 @@
 	    	})
 	    	.then((response) => response.json())
 	    	.then((data) => {
-				  console.log('Success:', data);
+				  console.log('Success:', data)
 				  alert('Transaction completed');
+
+				  cart = {}
+				  document.cookie ='cart='+ JSON.stringify(cart) + ";domain=;path=/"
 				  window.location.href = "{% url 'store' %}"
 
 				})

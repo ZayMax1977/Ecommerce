@@ -5,7 +5,7 @@ for (i = 0; i < updateBtns.length; i++) {
 	updateBtns[i].addEventListener('click', function(){
 		var productId = this.dataset.product
 		var action = this.dataset.action
-console.log('color: ', this.dataset.color)
+//console.log('color: ', this.dataset.color)
 		if (this.dataset.color){
 		    var color = this.dataset.color
 		}else{
