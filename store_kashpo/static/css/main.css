@@ -142,3 +142,26 @@ h1,h2,h3,h4,h5,h6{
         font-size: 15px;
     }
 }
+.discount-container{
+    position:absolute;
+    top:12%;
+    background:#F7B529;
+    width:15%;
+    color:white;
+    font-weight:700;
+    padding-left:5px
+
+}
+.discount-price-container{
+    position:absolute;
+    top:5%;
+    background:#F7B529;
+    width:27%;
+    color:white;
+    font-weight:300;
+    padding-left:5px;
+    text-decoration: line-through red;
+}
+.product-cart{
+    position:relative;
+}

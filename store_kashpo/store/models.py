@@ -27,6 +27,14 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     digital = models.BooleanField(default=False,null=True,blank=False)
     discount = models.IntegerField(default=0,null=True,blank=False)
+    price_without_discount = models.FloatField(null=True,blank=False)
+
+    def save(self, *args, **kwargs):
+        if self.discount > 0 :
+            self.price = self.price_without_discount-(self.price_without_discount/100*self.discount)
+        else:
+            self.price = self.price_without_discount
+        super(Product, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
