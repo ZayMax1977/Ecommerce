@@ -4,12 +4,7 @@
     <img class="thumbnail product-image" src="{{ p.imageURL}}">
     {% if p.discount %}
     <div class="discount-price-container">
-
-
             {{ p.price_without_discount|floatformat:2 }}<span class="carrency"></span> руб.
-
-
-
     </div>
 
     <div class="discount-container">
@@ -42,11 +37,7 @@
         </button>
         <a class="btn btn-outline-success" href="#">View</a>
 
-
-
-
         <h4 style="display: inline-block; float: right"><strong>{{ p.price|floatformat:2 }} </strong><span class="carrency">РУБ.</span></h4>
-
 
     </div>
 

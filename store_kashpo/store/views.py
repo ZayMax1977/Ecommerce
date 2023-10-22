@@ -19,9 +19,15 @@ def store(request):
         cartItems = cookiesCart['cartItems']
 
     csrf_token = get_token(request)
-    products = Product.objects.all().filter(is_active=True)
-    context = {'products': products, 'cartItems': cartItems, 'csrf_token': csrf_token}
-    return render(request, 'store/store.html', context)
+    products_kashpo = Product.objects.all().filter(is_active=True, category=1)[:3]
+    products_rack = Product.objects.all().filter(is_active=True, category=3)[:3]
+    products_metal_furniture = Product.objects.all().filter(is_active=True, category=2)[:3]
+    products_interior = Product.objects.all().filter(is_active=True, category=4)[:3]
+    products_kashpo_category_id = 1
+    products_rack_category_id = 3
+    products_metal_furniture_category_id = 2
+    products_interior_category_id = 4
+    return render(request, 'store/store.html', locals())
 
 
 def cart(request):
@@ -136,3 +142,7 @@ def processOrder(request):
         )
 
     return JsonResponse('Payment submitted..', safe=False)
+
+def get_by_category(request,pk):
+    products_by_category = Product.objects.filter(category=pk)
+    return render(request, 'store/category.html',locals())

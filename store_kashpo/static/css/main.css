@@ -165,3 +165,14 @@ h1,h2,h3,h4,h5,h6{
 .product-cart{
     position:relative;
 }
+.open-category{
+   text-align: center;
+vertical-align: middle;
+line-height: 70px;
+
+   }
+.open-category > a{
+    text-decoration:none;
+    color:#F7B529;
+    font-weight:600;
+}
