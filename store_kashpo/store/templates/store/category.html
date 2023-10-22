@@ -2,12 +2,18 @@
 {% load static %}
 {% block content %}
 <div class="row">
+    <div class="col-4">
+        <a class="btn btn-outline-dark" href="{% url 'store' %}">&#x2190; На Главную</a>
+    </div>
+</div>
+<br>
+<div class="row">
     <hr>
-    <p class="category-title">{{ products_by_category.0.category  }}</p>
+    <p class="category-title">{{ products_by_category.0.category }}</p>
     {% for p in products_by_category %}
-        {% include "./product-item-category.html" %}
+    {% include "./product-item-category.html" %}
     {% endfor %}
-
     <hr>
 </div>
 {% endblock content %}
+

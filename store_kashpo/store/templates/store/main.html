@@ -9,6 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 
+
+
     <script type="text/javascript">
         var user = '{{ request.user }}'
 
@@ -54,6 +56,7 @@
 		}
 
 
+
     </script>
 </head>
 <body>
@@ -68,7 +71,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'store' %}">Store</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'store' %}">Главная</a>
                 </li>
 
             </ul>
@@ -97,5 +100,7 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
 <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+{% block scripts %}
+{% endblock scripts %}
 </body>
 </html>

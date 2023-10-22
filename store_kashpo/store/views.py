@@ -1,15 +1,20 @@
 import datetime
 import json
 
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.middleware.csrf import get_token
+from django.views.generic import ListView
+
 from . import utils
 from .models import Product, Order, OrderItem, ShippingAddress, Customer
 from .utils import guestOrder
 
 
 def store(request):
+
+
     if request.user.is_authenticated:
         data = utils.cartData(request)
         cartItems = data['cartItems']
@@ -143,6 +148,18 @@ def processOrder(request):
 
     return JsonResponse('Payment submitted..', safe=False)
 
-def get_by_category(request,pk):
-    products_by_category = Product.objects.filter(category=pk)
-    return render(request, 'store/category.html',locals())
+# def get_by_category(request,pk):
+
+    # products_by_category = Product.objects.filter(category=pk,is_active=True)
+    # return render(request, 'store/category.html',locals())
+
+class CategoryView(ListView):
+    model = Product
+    template_name = 'store/category.html'
+    context_object_name = 'products_by_category'
+
+
+    def get_queryset(self):
+        return Product.objects.filter(category_id=self.kwargs['pk'], is_active=True)
+
+
