@@ -1,20 +1,20 @@
 import datetime
 import json
 
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.http import JsonResponse
-from django.shortcuts import render
+from django.core.mail import BadHeaderError, send_mail
+from django.http import JsonResponse, HttpResponse
+from django.shortcuts import render, redirect
 from django.middleware.csrf import get_token
 from django.views.generic import ListView
 
+from store_kashpo.settings import DEFAULT_FROM_EMAIL, RECIPIENTS_EMAIL
 from . import utils
-from .models import Product, Order, OrderItem, ShippingAddress, Customer
+from .forms import ContactForm
+from .models import Product, Order, OrderItem, ShippingAddress
 from .utils import guestOrder
 
 
 def store(request):
-
-
     if request.user.is_authenticated:
         data = utils.cartData(request)
         cartItems = data['cartItems']
@@ -93,7 +93,7 @@ def updateItem(request):
 
     orderItem.save()
 
-    if orderItem.quantity <= 0:
+    if orderItem.quantity <= 0 or action == 'del':
         orderItem.delete()
 
     return JsonResponse('Item was added', safe=False)
@@ -148,10 +148,6 @@ def processOrder(request):
 
     return JsonResponse('Payment submitted..', safe=False)
 
-# def get_by_category(request,pk):
-
-    # products_by_category = Product.objects.filter(category=pk,is_active=True)
-    # return render(request, 'store/category.html',locals())
 
 class CategoryView(ListView):
     model = Product
@@ -162,4 +158,51 @@ class CategoryView(ListView):
     def get_queryset(self):
         return Product.objects.filter(category_id=self.kwargs['pk'], is_active=True)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            data = utils.cartData(self.request)
+            context['cartItems'] = data['cartItems']
+        else:
+            cookiesCart = utils.cookiesCart(self.request)
+            context['cartItems'] = cookiesCart['cartItems']
+        return context
 
+def  contact(request):
+    if request.user.is_authenticated:
+        data = utils.cartData(request)
+        cartItems = data['cartItems']
+
+    else:
+        cookiesCart = utils.cookiesCart(request)
+        cartItems = cookiesCart['cartItems']
+
+    if request.method == 'GET':
+        form = ContactForm()
+
+    elif request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            subject = form.cleaned_data['subject']
+            from_email = form.cleaned_data['from_email']
+            message = form.cleaned_data['message']
+            try:
+                send_mail(f'{subject} от {from_email}', message,
+                          DEFAULT_FROM_EMAIL, RECIPIENTS_EMAIL)
+            except BadHeaderError:
+                return HttpResponse('Ошибка в теме письма.')
+            return redirect('/success')
+    else:
+        return HttpResponse('Неверный запрос.')
+    return render(request, "store/contact.html", {'form': form, 'cartItems': cartItems})
+
+
+def success_email(request):
+    if request.user.is_authenticated:
+        data = utils.cartData(request)
+        cartItems = data['cartItems']
+
+    else:
+        cookiesCart = utils.cookiesCart(request)
+        cartItems = cookiesCart['cartItems']
+    return render(request,'store/success-email.html',{'cartItems': cartItems})

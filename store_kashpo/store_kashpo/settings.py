@@ -128,4 +128,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/img')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+RECIPIENTS_EMAIL = ['garden-and-house@yandex.ru']
+DEFAULT_FROM_EMAIL = 'garden-and-house@yandex.ru'
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'garden-and-house@yandex.ru'
+EMAIL_HOST_PASSWORD = 'psqlawwkimyeuctb'
+EMAIL_USE_TLS = True
+SERVER_EMAIL = 'garden-and-house@yandex.ru'

@@ -93,6 +93,10 @@ h1,h2,h3,h4,h5,h6{
 .chg-quantity:hover{
 	opacity: .6;
 }
+.del-position{
+    	cursor: pointer;
+
+}
 
 
 .hidden{
@@ -175,4 +179,11 @@ line-height: 70px;
     text-decoration:none;
     color:#F7B529;
     font-weight:600;
+}
+.message-form{
+    display:block;
+}
+.line-email, .line-subject{
+    width:40%;
+
 }

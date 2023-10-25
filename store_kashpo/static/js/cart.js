@@ -45,6 +45,11 @@ function addCookieItem(productId, action, color){
 			delete cart[productId];
 		}
 	}
+    if (action == 'del'){
+        console.log('Item should be del')
+        delete cart[productId];
+
+	}
 	document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
 
 	location.reload()
