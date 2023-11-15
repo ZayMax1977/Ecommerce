@@ -1,20 +1,24 @@
 import datetime
 import json
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.mail import BadHeaderError, send_mail
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.middleware.csrf import get_token
-from django.views.generic import ListView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, FormView
 
 from store_kashpo.settings import DEFAULT_FROM_EMAIL, RECIPIENTS_EMAIL
 from . import utils
-from .forms import ContactForm
-from .models import Product, Order, OrderItem, ShippingAddress
-from .utils import guestOrder
+from .forms import ContactForm, RegisterForm
+from .models import Product, Order, OrderItem, ShippingAddress, Customer, Galary
+from .utils import guestOrder, get_order_info
 
 
 def store(request):
+    title = 'Главная'
     if request.user.is_authenticated:
         data = utils.cartData(request)
         cartItems = data['cartItems']
@@ -24,10 +28,10 @@ def store(request):
         cartItems = cookiesCart['cartItems']
 
     csrf_token = get_token(request)
-    products_kashpo = Product.objects.all().filter(is_active=True, category=1)[:3]
-    products_rack = Product.objects.all().filter(is_active=True, category=3)[:3]
-    products_metal_furniture = Product.objects.all().filter(is_active=True, category=2)[:3]
-    products_interior = Product.objects.all().filter(is_active=True, category=4)[:3]
+    products_kashpo = Product.objects.all().filter(is_active=True, category=1)[:4]
+    products_rack = Product.objects.all().filter(is_active=True, category=3)[:4]
+    products_metal_furniture = Product.objects.all().filter(is_active=True, category=2)[:4]
+    products_interior = Product.objects.all().filter(is_active=True, category=4)[:4]
     products_kashpo_category_id = 1
     products_rack_category_id = 3
     products_metal_furniture_category_id = 2
@@ -36,33 +40,39 @@ def store(request):
 
 
 def cart(request):
-    shipping = False
+    # shipping = False
     if request.user.is_authenticated:
-        data = utils.cartData(request,shipping)
+        data = utils.cartData(request)
         order = data['order']
         items = data['items']
         cartItems = data['cartItems']
         shipping = data['shipping']
     else:
-        cookiesCart = utils.cookiesCart(request,shipping)
+        cookiesCart = utils.cookiesCart(request)
         cartItems = cookiesCart['cartItems']
         order = cookiesCart['order']
         items = cookiesCart['items']
         shipping = cookiesCart['shipping']
 
-    context = {'items': items, 'order': order, 'cartItems': cartItems, 'shipping': shipping}
+    context = {
+        'items': items,
+        'order': order,
+        'cartItems': cartItems,
+        'shipping': shipping,
+        'title':'Корзина'}
     return render(request,'store/cart.html',context)
 
 def checkout(request):
-    shipping = False
+
+
     if request.user.is_authenticated:
-        data = utils.cartData(request,shipping)
+        data = utils.cartData(request)
         order = data['order']
         items = data['items']
         cartItems = data['cartItems']
         shipping = data['shipping']
     else:
-        cookiesCart = utils.cookiesCart(request, shipping=False)
+        cookiesCart = utils.cookiesCart(request)
 
 
         print(['items'])
@@ -71,7 +81,11 @@ def checkout(request):
         items = cookiesCart['items']
         shipping = cookiesCart['shipping']
 
-    context = {'items': items, 'order': order,'cartItems': cartItems, 'shipping': shipping}
+    context = {'items': items,
+               'order': order,
+               'cartItems': cartItems,
+               'shipping': shipping,
+               'title':'Оформление'}
     return render(request,'store/checkout.html',context)
 
 def updateItem(request):
@@ -100,10 +114,9 @@ def updateItem(request):
 
 
 def processOrder(request):
+
     transaction_id = datetime.datetime.now().timestamp()
     data = json.loads(request.body)
-    print('Transaction_id: ',transaction_id)
-    print('Data:', data)
 
     if request.user.is_authenticated:
         customer = request.user.customer
@@ -120,13 +133,23 @@ def processOrder(request):
                 country=data['shipping']['country'],
                 zipcode=data['shipping']['zipcode'],
             )
+
     else:
         print('User is not logged in...')
         print('COOKIES: ', request.COOKIES)
 
         customer, order = guestOrder(request, data)
 
-        print()
+        if order.shipping == True:
+            ShippingAddress.objects.create(
+                customer=customer,
+                order=order,
+                address=data['shipping']['address'],
+                city=data['shipping']['city'],
+                state=data['shipping']['state'],
+                country=data['shipping']['country'],
+                zipcode=data['shipping']['zipcode'],
+            )
 
     total = float(data['form']['total'])
     order.transaction_id = transaction_id
@@ -134,18 +157,6 @@ def processOrder(request):
     if total == order.get_cart_total:
         order.complete = True
     order.save()
-
-    if order.shipping == True:
-        ShippingAddress.objects.create(
-            customer=customer,
-            order=order,
-            address=data['shipping']['address'],
-            city=data['shipping']['city'],
-            state=data['shipping']['state'],
-            country=data['shipping']['country'],
-            zipcode=data['shipping']['zipcode'],
-        )
-
     return JsonResponse('Payment submitted..', safe=False)
 
 
@@ -153,7 +164,6 @@ class CategoryView(ListView):
     model = Product
     template_name = 'store/category.html'
     context_object_name = 'products_by_category'
-
 
     def get_queryset(self):
         return Product.objects.filter(category_id=self.kwargs['pk'], is_active=True)
@@ -169,6 +179,7 @@ class CategoryView(ListView):
         return context
 
 def  contact(request):
+    print(request.META.get('PATH_INFO', None))
     if request.user.is_authenticated:
         data = utils.cartData(request)
         cartItems = data['cartItems']
@@ -194,7 +205,7 @@ def  contact(request):
             return redirect('/success')
     else:
         return HttpResponse('Неверный запрос.')
-    return render(request, "store/contact.html", {'form': form, 'cartItems': cartItems})
+    return render(request, "store/contact.html", {'form': form, 'cartItems': cartItems, 'title':'Контакты'})
 
 
 def success_email(request):
@@ -205,4 +216,75 @@ def success_email(request):
     else:
         cookiesCart = utils.cookiesCart(request)
         cartItems = cookiesCart['cartItems']
-    return render(request,'store/success-email.html',{'cartItems': cartItems})
+    return render(request,'store/success-email.html',{'cartItems': cartItems, 'title':'Спасибо'})
+
+@login_required
+def profile_view(request):
+    title='Профиль'
+    print(request.META.get('PATH_INFO', None))
+    if request.user.is_authenticated:
+        data = utils.cartData(request)
+        cartItems = data['cartItems']
+
+    else:
+        cookiesCart = utils.cookiesCart(request)
+        cartItems = cookiesCart['cartItems']
+
+    list_orders = Order.objects.filter(customer=request.user.customer,complete=True)
+    order_info = get_order_info(list_orders)
+    order_info = {'order_info':order_info,'cartItems': cartItems,'title':title}
+    print(order_info)
+    return render(request, 'registration/profile.html',context=order_info)
+
+def login(request):
+    return render(request, 'registration/login.html')
+
+def color(request):
+    if request.user.is_authenticated:
+        data = utils.cartData(request)
+        cartItems = data['cartItems']
+
+    else:
+        cookiesCart = utils.cookiesCart(request)
+        cartItems = cookiesCart['cartItems']
+    return render(request, 'store/color.html',{'title':'Цвета ротанга','cartItems':cartItems})
+
+
+
+class RegisterView(FormView):
+    form_class = RegisterForm
+    template_name = 'registration/register.html'
+    success_url = reverse_lazy('profile_view')
+    extra_context = {"title":'Регистрация'}
+
+    def form_valid(self, form):
+        form.save()
+        new_user = User.objects.get(username=form.cleaned_data['username'])
+        new_customer = Customer(name=form.cleaned_data['first_name'],email=form.cleaned_data['email'],last_name=form.cleaned_data['last_name'])
+        new_user.customer = new_customer
+        new_user.customer.save()
+
+        return super().form_valid(form)
+
+def galary(request):
+    if request.user.is_authenticated:
+        data = utils.cartData(request)
+        cartItems = data['cartItems']
+
+    else:
+        cookiesCart = utils.cookiesCart(request)
+        cartItems = cookiesCart['cartItems']
+
+    arr = Galary.objects.all()
+    return render(request, 'store/galary.html', {'title': 'Гaлерея', 'cartItems': cartItems, 'arr': arr})
+
+def about(request):
+    if request.user.is_authenticated:
+        data = utils.cartData(request)
+        cartItems = data['cartItems']
+
+    else:
+        cookiesCart = utils.cookiesCart(request)
+        cartItems = cookiesCart['cartItems']
+
+    return render(request, 'store/about.html', {'title': 'О нас', 'cartItems': cartItems})

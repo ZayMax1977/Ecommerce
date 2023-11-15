@@ -1,10 +1,11 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 from django.db import models
 
 
 class Customer(models.Model):
-    user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE,related_name="customer")
     name = models.CharField(max_length=200, null=True)
+    last_name = models.CharField(max_length=200, null=True)
     email = models.CharField(max_length=200)
 
     def __str__(self):
@@ -23,7 +24,7 @@ class Product(models.Model):
     price = models.FloatField()
     description = models.CharField(max_length=200,null=True, blank=True)
     is_active = models.BooleanField(default=False)
-    image = models.ImageField(null=True, blank=True)
+    image = models.ImageField(null=True, blank=True,upload_to='product_photo/%Y/%m/%d/')
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     digital = models.BooleanField(default=False,null=True,blank=False)
     discount = models.IntegerField(default=0,null=True,blank=False)
@@ -44,7 +45,7 @@ class Product(models.Model):
         try:
             url = self.image.url
         except:
-            url='../../img/placeholder.png'
+            url = '/media/placeholder.png'
         return url
 
 
@@ -107,3 +108,10 @@ class ShippingAddress(models.Model):
 
     def __str__(self):
         return '{} {}'.format(self.city, self.address)
+
+class Galary(models.Model):
+    title = models.CharField(max_length=200)
+    image = models.ImageField(null=True, blank=True, upload_to='galary/%Y/%m/%d/')
+
+    def __str__(self):
+        return str(self.title)

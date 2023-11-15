@@ -1,8 +1,8 @@
 import json
-from .models import Product, Order, Customer, OrderItem
+from .models import Product, Order, Customer, OrderItem, ShippingAddress
 
 
-def cookiesCart(request,shipping=False):
+def cookiesCart(request):
     try:
         cart = json.loads(request.COOKIES['cart'])
     except:
@@ -41,14 +41,14 @@ def cookiesCart(request,shipping=False):
         except:
             pass
 
-    return {'items': items, 'order': order, 'cartItems': cartItems, 'shipping': shipping}
+    return {'items': items, 'order': order, 'cartItems': cartItems, 'shipping': True}
 
-def cartData(request,shipping=False):
+def cartData(request):
     customer = request.user.customer
     order, created = Order.objects.get_or_create(customer=customer, complete=False)
     items = order.orderitem_set.all()
     cartItems = order.get_cart_items
-    return{'items': items, 'order': order, 'cartItems': cartItems, 'shipping': shipping}
+    return{'items': items, 'order': order, 'cartItems': cartItems, 'shipping': False}
 
 def guestOrder(request, data):
     name = data['form']['name']
@@ -78,3 +78,30 @@ def guestOrder(request, data):
             color=item['color'],
         )
     return customer, order
+
+def get_order_info(list_orders):
+    order_info = {}
+    num = 0
+    for i in list_orders:
+        order_info['order_' + str(i.id)] = {}
+        order_info['order_' + str(i.id)]['date_ordered'] = i.date_ordered
+        order_info['order_' + str(i.id)]['complete'] = i.complete
+        order_info['order_' + str(i.id)]['sent'] = i.sent
+        shipping_info = ShippingAddress.objects.filter(order=list_orders[num].id)
+        for j in shipping_info:
+            order_info['order_' + str(i.id)]['id'] = list_orders[num].id
+            order_info['order_' + str(i.id)]['address'] = j.address
+            order_info['order_' + str(i.id)]['city'] = j.city
+            order_info['order_' + str(i.id)]['state'] = j.state
+            order_info['order_' + str(i.id)]['country'] = j.country
+            order_info['order_' + str(i.id)]['zipcode'] = j.zipcode
+        num += 1
+
+    for i in order_info:
+        order_info[i]['products'] = {}
+        num = 1
+        for j in OrderItem.objects.filter(order=i[6:]):
+            order_info[i]['products']['product' + str(num)] = j.product.name+', '+str(j.quantity)+'шт. '+'Цвет: '+j.color
+            num += 1
+
+    return order_info

@@ -1,0 +1,23 @@
+{% extends 'store/main.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="row">
+    {% for a in arr %}
+
+    <div class="col-lg-3 col-md-4 col-6 thumb">
+        <a data-fancybox="gallery" href="{{ a.image.url}}">
+            <img class="img-fluid" src="{{ a.image.url}}" alt="...">
+
+        </a>
+        {{ a.title }}
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock content %}
+

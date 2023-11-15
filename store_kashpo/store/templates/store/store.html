@@ -4,28 +4,35 @@
 <div class="row">
     <hr>
     <p class="category-title">Кашпо из искусственного ротанга</p>
+
+    <div class="row">
     {% for p in products_kashpo %}
         {% include "./product-item-category.html" %}
     {% endfor %}
+    </div>
+
     <div class="open-category"><a href="{% url 'category' pk=products_kashpo_category_id %}"> Весь товар в категории...</a></div>
+
     <hr>
 
-    <p class="category-title">Мебель из металла</p>
-    {% for p in products_metal_furniture %}
-        {% include "./product-item-category.html" %}
-    {% endfor %}
-    <div class="open-category"><a href="{% url 'category' pk=products_metal_furniture_category_id %}">Весь товар в категории...</a></div>
+<!--    <p class="category-title">Мебель из металла</p>-->
+<!--    {% for p in products_metal_furniture %}-->
+<!--        {% include "./product-item-category.html" %}-->
+<!--    {% endfor %}-->
+<!--    <div class="open-category"><a href="{% url 'category' pk=products_metal_furniture_category_id %}">Весь товар в категории...</a></div>-->
 
-    <p class="category-title">Подставки под цветы</p>
-    {% for p in products_rack %}
-        {% include "./product-item-category.html" %}
-    {% endfor %}
-    <div class="open-category"><a href="{% url 'category' pk=products_rack_category_id %}">Весь товар в категории...</a></div>
-    <p class="category-title">Интерьер для сада и дома</p>
-    {% for p in products_interior %}
-        {% include "./product-item-category.html" %}
-    {% endfor %}
-    <div class="open-category"><a href="{% url 'category' pk=products_interior_category_id %}">Весь товар в категории...</a></div>
+<!--    <p class="category-title">Подставки под цветы</p>-->
+<!--    -->
+<!--    {% for p in products_rack %}-->
+<!--        {% include "./product-item-category.html" %}-->
+<!--    {% endfor %}-->
+
+<!--    <div class="open-category"><a href="{% url 'category' pk=products_rack_category_id %}">Весь товар в категории...</a></div>-->
+<!--    <p class="category-title">Интерьер для сада и дома</p>-->
+<!--    {% for p in products_interior %}-->
+<!--        {% include "./product-item-category.html" %}-->
+<!--    {% endfor %}-->
+<!--    <div class="open-category"><a href="{% url 'category' pk=products_interior_category_id %}">Весь товар в категории...</a></div>-->
 
 </div>
 

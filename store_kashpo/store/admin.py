@@ -46,3 +46,9 @@ class OrderItemAdmin(admin.ModelAdmin):
     class Meta:
         model = OrderItem
 admin.site.register(OrderItem,OrderItemAdmin)
+
+class GalaryAdmin(admin.ModelAdmin):
+    list_display = ['title']
+    class Meta:
+        model = Galary
+admin.site.register(Galary,GalaryAdmin)

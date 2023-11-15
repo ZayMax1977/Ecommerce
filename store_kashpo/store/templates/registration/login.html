@@ -1,0 +1,29 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/accounts/login.css' %}">
+{% endblock %}
+{% block content %}
+
+
+    <div class="login form">
+      <header>Вход</header>
+        {{ title }}
+      <form method="post">
+          {% csrf_token %}
+          {{ form.errors }}
+        <input type="text" placeholder="Введите логин" name="username">
+        <input type="password" placeholder="Введите пароль" name="password">
+        <a href="{% url 'password_reset' %}">Забыли пароль?</a>
+        <input type="submit" class="button" value="Войти">
+      </form>
+      <div class="signup">
+        <span class="signup">Нет аккаунта?
+         <label for="check">
+             <a href="{% url 'register' %}">Зарегистрироваться</a>
+         </label>
+        </span>
+      </div>
+    </div>
+
+{% endblock content %}

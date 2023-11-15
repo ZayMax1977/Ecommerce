@@ -1,0 +1,83 @@
+{% extends 'store/main.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/accounts/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="main-body">
+        <div class="row info-user" style="justify-content: space-around;">
+            <div class="col-md-8 ">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Логин</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ user.username }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Имя</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ user.first_name }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Фамилия</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ user.last_name }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Email</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ user.email }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h5>История заказов:</h5>
+                {% for key,value in order_info.items %}
+                <div class="card  text-dark bg-light   mb-3" style="max-width: 180rem;">
+                    <div class="card-header"><strong>Ордер</strong> №{{ value.id }} от {{ value.date_ordered|date:'Y-m-d' }}<br> <strong>Оплачен</strong>:
+                        {% if value.complete == True %} Да {% else %} Нет{% endif %}<br>
+                        <strong>Отправлен</strong>:
+                        {% if value.sent == True %} Да {% else %} Нет{% endif %}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Товары:</h5>
+                        <p class="card-text">
+                            {% for k,v in value.products.items %}
+                            {{v}}<br>
+                            {% endfor %}
+                        </p>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Доставка:</h5>
+                        <p class="card-text">
+                            Страна: {{ value.country }}<br>
+                            Субъект: {{ value.state }}<br>
+                            Город: {{ value.city }}<br>
+                            Улица: {{ value.address }}<br>
+                        </p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
