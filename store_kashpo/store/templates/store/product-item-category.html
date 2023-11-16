@@ -1,15 +1,13 @@
 {% load static %}
 
 
-
-
-    <div class="col-lg-3 col-md-4 col-6 thumb">
-        <a data-fancybox="gallery" href="{{ p.imageURL}}">
-            <img class="img-fluid" src="{{ p.imageURL}}" alt="...">
-        </a>
-        {% if p.discount %}
+<div class="col-lg-3 col-md-4 col-6 thumb img-for-discount">
+    <a data-fancybox="gallery" href="{{ p.imageURL}}">
+        <img class="img-fluid " src="{{ p.imageURL}}" alt="...">
+    </a>
+    {% if p.discount %}
     <div class="discount-price-container">
-            {{ p.price_without_discount|floatformat:2 }}<span class="carrency"></span> руб.
+        {{ p.price_without_discount|floatformat:2 }}<span class="carrency"></span> руб.
     </div>
 
     <div class="discount-container">
@@ -27,9 +25,9 @@
             <option value="Индийское золото">Индийское золото</option>
             <option value="Белый">Белый</option>
             <option value="Бронза">Бронза</option>
-                        <option value="Дуб">Дуб</option>
+            <option value="Дуб">Дуб</option>
             <option value="Дуб-Омбре">Дуб-Омбре</option>
-             <option value="Лесной орех">Лесной орех</option>
+            <option value="Лесной орех">Лесной орех</option>
 
         </select></p>
         {% else %}
@@ -44,20 +42,14 @@
         <button data-product="{{ p.id }}" data-action='add' class="btn btn-outline-secondary add-btn update-cart">В
             Корзину
         </button>
-        <a class="btn btn-outline-success" href="#">View</a>
+        <!--        <a class="btn btn-outline-success" href="#">View</a>-->
 
         <h6 style="display: inline-block; float: right"><strong>{{ p.price|floatformat:2 }} </strong>
             <span class="carrency">РУБ./шт.</span></h6>
 
     </div>
 
-    </div>
-
-
-
-
-
-
+</div>
 
 
 <!--<div class="col-lg-4 product-cart">-->

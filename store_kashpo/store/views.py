@@ -13,7 +13,7 @@ from django.views.generic import ListView, FormView
 from store_kashpo.settings import DEFAULT_FROM_EMAIL, RECIPIENTS_EMAIL
 from . import utils
 from .forms import ContactForm, RegisterForm
-from .models import Product, Order, OrderItem, ShippingAddress, Customer, Galary
+from .models import Product, Order, OrderItem, ShippingAddress, Customer, Galary, Color
 from .utils import guestOrder, get_order_info
 
 
@@ -247,7 +247,9 @@ def color(request):
     else:
         cookiesCart = utils.cookiesCart(request)
         cartItems = cookiesCart['cartItems']
-    return render(request, 'store/color.html',{'title':'Цвета ротанга','cartItems':cartItems})
+
+    colors = Color.objects.all()
+    return render(request, 'store/color.html',{'title':'Цвета ротанга','cartItems':cartItems, "colors": colors})
 
 
 

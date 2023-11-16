@@ -115,3 +115,7 @@ class Galary(models.Model):
 
     def __str__(self):
         return str(self.title)
+
+class Color(models.Model):
+    title = models.CharField(max_length=200)
+    image = models.ImageField(null=True, blank=True, upload_to='color/%Y/%m/%d/')

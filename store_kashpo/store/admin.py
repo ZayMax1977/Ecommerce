@@ -52,3 +52,9 @@ class GalaryAdmin(admin.ModelAdmin):
     class Meta:
         model = Galary
 admin.site.register(Galary,GalaryAdmin)
+
+class ColorAdmin(admin.ModelAdmin):
+    list_display = ['title']
+    class Meta:
+        model = Color
+admin.site.register(Color,ColorAdmin)

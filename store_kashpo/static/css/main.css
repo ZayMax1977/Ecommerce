@@ -150,11 +150,14 @@ h1,h2,h3,h4,h5,h6{
     }
 
 }
+.img-for-discount{
+position:relative;
+}
 .discount-container{
     position:absolute;
     top:12%;
     background:#F7B529;
-    width:15%;
+    width:25%;
     color:white;
     font-weight:700;
     padding-left:5px
@@ -164,7 +167,7 @@ h1,h2,h3,h4,h5,h6{
     position:absolute;
     top:5%;
     background:#F7B529;
-    width:27%;
+    width:35%;
     color:white;
     font-weight:300;
     padding-left:5px;
@@ -216,5 +219,16 @@ line-height: 70px;
 .product-cart{
         width:auto;
     }
+    .discount-container{
+
+    width:50%;
+
+
+}
+.discount-price-container{
+
+    width:50%;
+
+}
 
 }

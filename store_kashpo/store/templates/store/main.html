@@ -118,7 +118,7 @@
                     {% endif %}
                 </li>
                 <li class="nav-item">
-                    {% if request.META.PATH_INFO == "about" %}
+                    {% if request.META.PATH_INFO == "/about/" %}
                     <a class="nav-link active" aria-current="page" href="{% url 'about' %}">
                         О нас</a>
                     {% else %}
