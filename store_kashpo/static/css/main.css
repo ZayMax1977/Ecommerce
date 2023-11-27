@@ -1,5 +1,19 @@
+@font-face {
+	font-family: 'Sugano';
+	src: local('Sugano'),
+		url(../../static/fonts/Sugano.ttf);
+}
+
+html {
+  height: 100%;
+}
+
 body{
 	background-color: hsl(0, 0%, 98%);
+	 margin: 0;
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
 
 
@@ -128,6 +142,7 @@ h1,h2,h3,h4,h5,h6{
     .product{
         height:200px;
     }
+
 }
 @media (min-width: 1330px){
     .product{
@@ -138,18 +153,9 @@ h1,h2,h3,h4,h5,h6{
     .product{
         height:210px;
     }
-    h6{
-        font-size: 1.1em;
-
-    }
-    .carrency{
-        font-size: 10px;
-    }
-    .product-cart{
-        color:red;
-    }
 
 }
+
 .img-for-discount{
 position:relative;
 }
@@ -213,22 +219,51 @@ line-height: 70px;
 .product-cart{
         max-width:350px;
     }
-
 }
 @media screen and (max-width: 800px) {
-.product-cart{
+    .product-cart{
         width:auto;
     }
     .discount-container{
-
-    width:50%;
-
-
-}
-.discount-price-container{
-
-    width:50%;
-
+        width:50%;
+    }
+    .discount-price-container{
+        width:50%;
+    }
 }
 
+.footer{
+    position:relative;
+    background: #4F868C;
+    height: 120px;
+
+     position: fixed;
+ position: static;
+
+ width:100%;
+
 }
+.footer-block{
+    display:flex;
+}
+.socity{
+    margin:20px auto;
+}
+.developed{
+        margin:28px auto;
+         color: rgba(255,255,255,255);
+        opacity:0.55;
+}
+
+.socity-text{
+        color: rgba(255,255,255,255);
+        opacity:0.55;
+}
+.zay{
+     text-decoration: none;
+     color:red;
+     font-family:'Sugano';
+     font-size:20px;
+}
+
+

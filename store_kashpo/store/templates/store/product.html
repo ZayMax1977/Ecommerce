@@ -1,0 +1,27 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+ <a class="btn btn-outline-dark" href="{% url 'category' pk=product.category.pk %}">&#x2190; Назад</a>
+ <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">{{ product.name }}</h3>
+
+            <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-6">
+                    <br>
+                    <div class="white-box text-center"><img src="{{ product.imageURL }}" class="img-responsive" width="360"></div>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-6">
+                    <h4 class="box-title mt-5">Описание</h4>
+                    <p>{{ product.description }}</p>
+                    <h2 class="mt-5">
+                        {% if product.discount %}
+                        <small class="text-success"><strike >{{ product.price_without_discount|floatformat:2  }} &#8381;</strike></small>
+                        {% endif %}
+                        {{ product.price|floatformat:2  }} &#8381;
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

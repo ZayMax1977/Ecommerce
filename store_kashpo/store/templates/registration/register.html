@@ -2,28 +2,40 @@
 {% load static %}
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/accounts/login.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/accounts/register.css' %}">
 {% endblock %}
 {% block content %}
 
 
 <div class="registration form">
-      <header>Signup</header>
-      <form  method="post">
-           {% csrf_token %}
-          {{ form.errors }}
+    <header>Регистрация</header>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.errors }}
         <input type="text" placeholder="Введите логин" name="username">
-          <input type="text" placeholder="Введите имя" name="first_name">
-          <input type="text" placeholder="Введите фамилию" name="last_name">
+        <input type="text" placeholder="Введите имя" name="first_name">
+        <input type="text" placeholder="Введите фамилию" name="last_name">
         <input type="password" placeholder="Придумайте пароль" name="password1">
         <input type="password" placeholder="Повторите пароль" name="password2">
-          <input type="email" placeholder="Введите email" name="email">
-        <input type="submit" class="button" value="Зарегистрироваться">
-      </form>
-      <div class="signup">
-        <span class="signup">Уже есть аккаунт?
-         <label for="check"><a href="{% url 'login' %}"> Вход</a></label>
-        </span>
-      </div>
+        <input type="email" placeholder="Введите email" name="email">
+        <input type="submit" id='submit' class="button" value="Зарегистрироваться" disabled>
+    </form>
+
+    <div class="check-policy">
+        <input type="checkbox" id="policy" name="Ознакомлен с условиями" value="Ознакомлен"
+               onchange="document.getElementById('submit').disabled = !this.checked;" style="height:15px;width:15px;">
+        &nbsp;&nbsp;<label for="policy"><a href="{% url 'agreement' %}">Пользовательское соглашение</a></label>
     </div>
 
+
+    <div class="signup">
+        <span class="signup" id="check">Уже есть аккаунт?
+         <label for="check"><a href="{% url 'login' %}"> Вход</a></label>
+        </span>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
 {% endblock %}

@@ -16,9 +16,11 @@
     {% endif %}
 
     <div class="box-element product">
+
         <h6><strong>{{ p.name }}</strong></h6>
-        <h6>{{ p.description }}</h6>
-        {% if p.category.id == 1 %}
+<!--        <h6>{{ p.description }}</h6>-->
+
+        {% if p.category.id == 1 or p.category.id == 5 %}
         <p><select id="color_{{ p.id }}" name="color">
             <option value="Любой">Любой</option>
             <option value="Венге">Венге</option>
@@ -42,61 +44,14 @@
         <button data-product="{{ p.id }}" data-action='add' class="btn btn-outline-secondary add-btn update-cart">В
             Корзину
         </button>
-        <!--        <a class="btn btn-outline-success" href="#">View</a>-->
-
-        <h6 style="display: inline-block; float: right"><strong>{{ p.price|floatformat:2 }} </strong>
-            <span class="carrency">РУБ./шт.</span></h6>
+                <a href="{% url 'product' p.id %}"><button  class="btn btn-outline-secondary add-btn  get-detail">Детали</button></a>
+<br>
+        <br>
+        <span  class='price-in-card' ><strong>{{ p.price|floatformat:2 }} </strong>
+            руб./шт.</span>
 
     </div>
 
 </div>
 
 
-<!--<div class="col-lg-4 product-cart">-->
-<!--    <img class="thumbnail product-image" src="{{ p.imageURL}}">-->
-<!--    {% if p.discount %}-->
-<!--    <div class="discount-price-container">-->
-<!--            {{ p.price_without_discount|floatformat:2 }}<span class="carrency"></span> руб.-->
-<!--    </div>-->
-
-<!--    <div class="discount-container">-->
-<!--        <span>- {{p.discount}} %</span>-->
-<!--    </div>-->
-<!--    {% endif %}-->
-
-<!--    <div class="box-element product">-->
-<!--        <h6><strong>{{ p.name }}</strong></h6>-->
-<!--        <h6>{{ p.description }}</h6>-->
-<!--        {% if p.category.id == 1 %}-->
-<!--        <p><select id="color_{{ p.id }}" name="color">-->
-<!--            <option value="Любой">Любой</option>-->
-<!--            <option value="Венге">Венге</option>-->
-<!--            <option value="Индийское золото">Индийское золото</option>-->
-<!--            <option value="Белый">Белый</option>-->
-<!--            <option value="Бронза">Бронза</option>-->
-<!--                        <option value="Дуб">Дуб</option>-->
-<!--            <option value="Дуб-Омбре">Дуб-Омбре</option>-->
-<!--             <option value="Лесной орех">Лесной орех</option>-->
-
-<!--        </select></p>-->
-<!--        {% else %}-->
-<!--        <p><select id="color_{{ p.id }}" name="color">-->
-<!--            <option value="Черный">Черный</option>-->
-<!--            <option value="Белый">Белый</option>-->
-<!--            <option value="Коричневый">Коричневый</option>-->
-<!--        </select></p>-->
-<!--        {% endif %}-->
-<!--        <hr>-->
-
-<!--        <button data-product="{{ p.id }}" data-action='add' class="btn btn-outline-secondary add-btn update-cart">В-->
-<!--            Корзину-->
-<!--        </button>-->
-<!--        <a class="btn btn-outline-success" href="#">View</a>-->
-
-<!--        <h6 style="display: inline-block; float: right"><strong>{{ p.price|floatformat:2 }} </strong>-->
-<!--            <span class="carrency">РУБ./шт.</span></h6>-->
-
-<!--    </div>-->
-
-
-<!--</div>-->

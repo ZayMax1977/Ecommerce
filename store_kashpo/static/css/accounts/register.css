@@ -1,0 +1,22 @@
+}
+input[type="checkbox"]:checked,
+input[type="checkbox"]:not(:checked)
+{
+position: absolute;
+left: -9999px;
+}
+
+input[type="checkbox"]:checked + label,
+input[type="checkbox"]:not(:checked) + label{
+display: inline-block;
+position: relative;
+padding-left: 20px;
+line-height: 1;
+cursor: pointer;
+}
+
+.button:disabled, .button:hover:disabled {
+background-color: rgba(0,0,0,.1);
+border: 1px solid rgba(0, 0, 0, .1);
+cursor: not-allowed;
+}

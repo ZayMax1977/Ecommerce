@@ -4,11 +4,12 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import BadHeaderError, send_mail
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.middleware.csrf import get_token
 from django.urls import reverse_lazy
-from django.views.generic import ListView, FormView
+from django.views.decorators.cache import cache_page
+from django.views.generic import ListView, FormView, DetailView
 
 from store_kashpo.settings import DEFAULT_FROM_EMAIL, RECIPIENTS_EMAIL
 from . import utils
@@ -18,7 +19,7 @@ from .utils import guestOrder, get_order_info
 
 
 def store(request):
-    title = 'Главная'
+
     if request.user.is_authenticated:
         data = utils.cartData(request)
         cartItems = data['cartItems']
@@ -28,19 +29,26 @@ def store(request):
         cartItems = cookiesCart['cartItems']
 
     csrf_token = get_token(request)
-    products_kashpo = Product.objects.all().filter(is_active=True, category=1)[:4]
-    products_rack = Product.objects.all().filter(is_active=True, category=3)[:4]
-    products_metal_furniture = Product.objects.all().filter(is_active=True, category=2)[:4]
-    products_interior = Product.objects.all().filter(is_active=True, category=4)[:4]
-    products_kashpo_category_id = 1
-    products_rack_category_id = 3
-    products_metal_furniture_category_id = 2
-    products_interior_category_id = 4
-    return render(request, 'store/store.html', locals())
+    products_kashpo = Product.objects.all().filter(is_active=True, category=1)[:4].select_related('category')
+    products_rack = Product.objects.all().filter(is_active=True, category=3)[:4].select_related('category')
+    products_metal_furniture = Product.objects.all().filter(is_active=True, category=2)[:4].select_related('category')
+    products_interior = Product.objects.all().filter(is_active=True, category=4)[:4].select_related('category')
+    products_rotang_furniture = Product.objects.all().filter(is_active=True, category=5)[:4].select_related('category')
+    context = {
+        "products_kashpo": products_kashpo,
+        "products_rack":products_rack,
+        "products_metal_furniture":products_metal_furniture,
+        "products_interior":products_interior,
+        "products_rotang_furniture": products_rotang_furniture,
+        'title' : 'Главная',
+        "cartItems":cartItems,
+
+    }
+
+    return render(request, 'store/store.html',context = context )
 
 
 def cart(request):
-    # shipping = False
     if request.user.is_authenticated:
         data = utils.cartData(request)
         order = data['order']
@@ -122,7 +130,6 @@ def processOrder(request):
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
 
-
         if order.shipping == True:
             ShippingAddress.objects.create(
                 customer=customer,
@@ -132,6 +139,7 @@ def processOrder(request):
                 state=data['shipping']['state'],
                 country=data['shipping']['country'],
                 zipcode=data['shipping']['zipcode'],
+                phone=data['shipping']['phone'],
             )
 
     else:
@@ -149,9 +157,11 @@ def processOrder(request):
                 state=data['shipping']['state'],
                 country=data['shipping']['country'],
                 zipcode=data['shipping']['zipcode'],
+                phone=data['shipping']['phone'],
             )
 
-    total = float(data['form']['total'])
+    head, sep, tail = data['form']['total'].partition(',')
+    total = float(head)
     order.transaction_id = transaction_id
 
     if total == order.get_cart_total:
@@ -166,7 +176,8 @@ class CategoryView(ListView):
     context_object_name = 'products_by_category'
 
     def get_queryset(self):
-        return Product.objects.filter(category_id=self.kwargs['pk'], is_active=True)
+
+        return Product.objects.filter(category_id=self.kwargs['pk'], is_active=True).select_related('category')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -198,15 +209,16 @@ def  contact(request):
             from_email = form.cleaned_data['from_email']
             message = form.cleaned_data['message']
             try:
-                send_mail(f'{subject} от {from_email}', message,
-                          DEFAULT_FROM_EMAIL, RECIPIENTS_EMAIL)
+                send_mail(f'{subject} от {from_email}', message)
+                # send_mail(f'{subject} от {from_email}', message,
+                #        DEFAULT_FROM_EMAIL, RECIPIENTS_EMAIL)
+
             except BadHeaderError:
                 return HttpResponse('Ошибка в теме письма.')
             return redirect('/success')
     else:
         return HttpResponse('Неверный запрос.')
     return render(request, "store/contact.html", {'form': form, 'cartItems': cartItems, 'title':'Контакты'})
-
 
 def success_email(request):
     if request.user.is_authenticated:
@@ -221,7 +233,6 @@ def success_email(request):
 @login_required
 def profile_view(request):
     title='Профиль'
-    print(request.META.get('PATH_INFO', None))
     if request.user.is_authenticated:
         data = utils.cartData(request)
         cartItems = data['cartItems']
@@ -233,7 +244,6 @@ def profile_view(request):
     list_orders = Order.objects.filter(customer=request.user.customer,complete=True)
     order_info = get_order_info(list_orders)
     order_info = {'order_info':order_info,'cartItems': cartItems,'title':title}
-    print(order_info)
     return render(request, 'registration/profile.html',context=order_info)
 
 def login(request):
@@ -268,6 +278,7 @@ class RegisterView(FormView):
 
         return super().form_valid(form)
 
+@cache_page(60 * 15)
 def galary(request):
     if request.user.is_authenticated:
         data = utils.cartData(request)
@@ -290,3 +301,43 @@ def about(request):
         cartItems = cookiesCart['cartItems']
 
     return render(request, 'store/about.html', {'title': 'О нас', 'cartItems': cartItems})
+
+def conditions(request):
+    if request.user.is_authenticated:
+        data = utils.cartData(request)
+        cartItems = data['cartItems']
+
+    else:
+        cookiesCart = utils.cookiesCart(request)
+        cartItems = cookiesCart['cartItems']
+
+    return render(request, 'store/conditions.html', {'title': 'Условия', 'cartItems': cartItems})
+
+def agreement(request):
+    if request.user.is_authenticated:
+        data = utils.cartData(request)
+        cartItems = data['cartItems']
+
+    else:
+        cookiesCart = utils.cookiesCart(request)
+        cartItems = cookiesCart['cartItems']
+
+    return render(request, 'store/agreement.html', {'title': 'Соглашение', 'cartItems': cartItems})
+
+class ProductDetail(DetailView):
+    model = Product
+    template_name = 'store/product.html'
+    context_object_name = 'product'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            data = utils.cartData(self.request)
+            context['cartItems'] = data['cartItems']
+        else:
+            cookiesCart = utils.cookiesCart(self.request)
+            context['cartItems'] = cookiesCart['cartItems']
+        return context
+
+def pageNotFound(request, exception):
+    return HttpResponseNotFound('<h2>Страница не найдена</h2')

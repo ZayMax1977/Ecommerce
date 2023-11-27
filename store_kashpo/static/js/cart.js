@@ -77,3 +77,4 @@ function updateUserOrder(productId, action, color){
             location.reload()
 		});
 }
+

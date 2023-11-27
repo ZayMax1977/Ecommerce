@@ -1,74 +1,85 @@
 {% extends 'store/main.html' %}
 {% load static %}
 {% block content %}
-         <div class="row">
-		<div class="col-lg-6">
-			<div class="box-element" id="form-wrapper">
-				<form id="form" method="POST">
-					<div id="user-info">
-						<div class="form-field">
-							<input required class="form-control" type="text" name="name" placeholder="Name..">
-						</div>
-						<div class="form-field">
-							<input required class="form-control" type="email" name="email" placeholder="Email..">
-						</div>
-					</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="box-element" id="form-wrapper">
+            <form id="form" method="POST">
+                <div id="user-info">
+                    <div class="form-field">
+                        <input required class="form-control" type="text" name="name" placeholder="Name..">
+                    </div>
+                    <div class="form-field">
+                        <input required class="form-control" type="email" name="email" placeholder="Email..">
+                    </div>
+                </div>
 
-					<div id="shipping-info">
-						<hr>
-						<p>Shipping Information:</p>
-						<hr>
-						<div class="form-field">
-							<input class="form-control" type="text" name="address" placeholder="Адрес ...">
-						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="city" placeholder="Город ...">
-						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="state" placeholder="Регион ...">
-						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="country" placeholder="Страна ...">
-						</div>
+                <div id="shipping-info">
+                    <hr>
+                    <p>Информация о доставке:</p>
+                    <hr>
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="address" placeholder="Адрес ...">
+                    </div>
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="city" placeholder="Город ...">
+                    </div>
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="state" placeholder="Регион ...">
+                    </div>
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="country" placeholder="Страна ...">
+                    </div>
 
-						<div class="form-field">
-							<input class="form-control" type="text" name="zipcode" placeholder="Индекс ...">
-						</div>
-					</div>
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="zipcode" placeholder="Индекс ...">
+                    </div>
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="phone" placeholder="Телефон ...">
+                    </div>
+                </div>
 
-					<hr>
-					<div class="d-grid gap-2">
-						<input id="form-button" class="btn btn-success btn-block" type="submit" value="Продолжить">
-					</div>
-				</form>
-			</div>
+                <hr>
+                <div class="d-grid gap-2">
+                    <input id="form-button" class="btn btn-success btn-block" type="submit" value="Продолжить">
+                </div>
+            </form>
+        </div>
 
-			<br>
+        <br>
+        <div class="box-element hidden" id="payment-info">
+            <small>Параметры оплаты</small>
+            <button id="make-payment" class="btn btn-success btn-block">Оплатить</button>
+        </div>
 
 
-		</div>
 
-		<div class="col-lg-6">
-			<div class="box-element">
-				<a  class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
-				<hr>
-				<h3>Order Summary</h3>
-				<hr>
-				{% for i in items %}
-				<div class="cart-row">
-					<div style="flex:2"><img class="row-image" src="{{ i.product.imageURL }}"></div>
-					<div style="flex:2"><p>{{ i.product.name }}</p></div>
-					<div style="flex:1"><p>{{ i.color }}</p></div>
-					<div style="flex:1"><p>{{ i.product.price|floatformat:2 }}</p></div>
-					<div style="flex:1"><p>x{{ i.quantity }}</p></div>
-				</div>
-				{% endfor %}
-				<h5>Items:   {{ order.get_cart_items }}</h5>
-				<h5>Total:   {{ order.get_cart_total|floatformat:2 }}</h5>
-			</div>
-		</div>
-	</div>
+
+    </div>
+
+    <div class="col-lg-6">
+        <div class="box-element">
+            <a class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Назад</a>
+            <hr>
+            <h3>Список покупок</h3>
+            <hr>
+            {% for i in items %}
+            <div class="cart-row">
+                <div style="flex:2"><img class="row-image" src="{{ i.product.imageURL }}"></div>
+                <div style="flex:2"><p>{{ i.product.name }}</p></div>
+                <div style="flex:1"><p>{{ i.color }}</p></div>
+                <div style="flex:1"><p>{{ i.product.price|floatformat:2 }}</p></div>
+                <div style="flex:1"><p>x{{ i.quantity }}</p></div>
+            </div>
+            {% endfor %}
+            <h5>Кол-во: {{ order.get_cart_items }}</h5>
+            <h5>Стоимость: {{ order.get_cart_total|floatformat:2 }}</h5>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
+console.log("123")
+
 		var shipping = '{{ order.shipping }}'
 console.log(shipping)
 		var total = '{{ order.get_cart_total }}'
@@ -93,9 +104,11 @@ console.log(shipping)
 	    	console.log('Form Submitted...')
 	    	document.getElementById('form-button').classList.add("hidden");
 	    	document.getElementById('payment-info').classList.remove("hidden");
+	    	console.log("click");
 	    })
 
 	    document.getElementById('make-payment').addEventListener('click', function(e){
+
 	    	submitFormData()
 	    })
 
@@ -112,6 +125,8 @@ console.log(shipping)
 				'state':null,
 				'country': 'null',
 				'zipcode':null,
+				'phone':null,
+
 			}
 			if (shipping != 'False'){
 	    		shippingInfo.address = form.address.value
@@ -119,6 +134,7 @@ console.log(shipping)
 		    	shippingInfo.state = form.state.value
 		    	shippingInfo.country = form.country.value
 		    	shippingInfo.zipcode = form.zipcode.value
+		    	shippingInfo.phone = form.phone.value
 
 		    }
 		    if (user == 'AnonymousUser'){
@@ -129,6 +145,7 @@ console.log(shipping)
 	    	console.log('User Info:', userFormData)
 
 	    	var url = "/process_order/"
+
 	    	fetch(url, {
 	    		method:'POST',
 	    		headers:{
@@ -149,5 +166,6 @@ console.log(shipping)
 
 				})
 		}
+
 </script>
 {% endblock content %}

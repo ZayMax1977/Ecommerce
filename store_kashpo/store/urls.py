@@ -16,5 +16,8 @@ urlpatterns = [
     path('color/', color, name='color'),
     path('galary/', galary, name='galary'),
     path('about/', about, name='about'),
+    path('conditions/', conditions, name='conditions'),
+    path('agreement/', agreement, name='agreement'),
+    path('product/<int:pk>', ProductDetail.as_view(), name='product'),
 
 ]

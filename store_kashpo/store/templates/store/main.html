@@ -144,6 +144,14 @@
                     {% endif %}
                 </li>
                 <li class="nav-item">
+                    {% if request.META.PATH_INFO == "/conditions/" %}
+                    <a class="nav-link active" aria-current="page" href="{% url 'conditions' %}">
+                        Условия</a>
+                    {% else %}
+                    <a class="nav-link" aria-current="page" href="{% url 'conditions' %}">Условия</a>
+                    {% endif %}
+                </li>
+                <li class="nav-item">
                     {% if request.META.PATH_INFO == "/contact/" %}
                     <a class="nav-link active" aria-current="page" href="{% url 'contact' %}">
                         Контакты</a>
@@ -181,11 +189,28 @@
     </div>
 </nav>
 
-<div class="container">
-    <br>
-    {% block content %}
-    {% endblock content %}
+
+    <div class="container ">
+        <br>
+        {% block content %}
+        {% endblock content %}
+    </div>
+
+{% block footer %}
+<div class="footer">
+    <div class=" footer-block">
+        <div class="socity">
+            <span class="socity-text">Мы в социальных сетях: </span>
+            <div>
+            <a href="https://ok.ru/profile/121514035572"><img src="{% static 'img/ok.png' %}" ></a>
+            <a href="https://vk.ru/kashpo_rotang_rnd"><img src="{% static 'img/vk.png' %}" ></a>
+            </div>
+        </div>
+        <div class="developed">Developed by <a href="https://vk.com/zanchenko" class="zay">Zay&trade;</a> </div>
+    </div>
 </div>
+{% endblock %}
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
@@ -203,19 +228,8 @@
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
 
 <script>
-$(function() {
-    var options = {
-        srcNode: 'img',             // grid items
-        margin: '15px',             // margin in pixel
-        width: '240px',             // grid item width in pixel
-        max_width: '',              // dynamic gird item width
-        resizable: true,            // re-layout if window resize
-        transition: 'all 0.5s ease' // support transition for CSS3
-    };
-    $('.grid').gridify(options);
-});
 </script>
 {% block scripts %}
-{% endblock scripts %}
+{% endblock %}
 </body>
 </html>
