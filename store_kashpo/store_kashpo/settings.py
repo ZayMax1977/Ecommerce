@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1j8yb=8^*k$iu616lu2)qpwoc68$_+@f^+!av-ucaa550!n+1z'
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -93,7 +93,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "store_db",
         "USER": "postgres",
-        "PASSWORD": "1977",
+        "PASSWORD": "",
         "HOST": "localhost",
         "PORT": "5432",
     }
@@ -154,7 +154,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'garden-and-house@yandex.ru'
-EMAIL_HOST_PASSWORD = 'psqlawwkimyeuctb'
+EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = True
 SERVER_EMAIL = 'garden-and-house@yandex.ru'
 
